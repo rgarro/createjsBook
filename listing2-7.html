@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Starter Template</title>
+	<script type="text/javascript" src="lib/createjs-2014.12.12.min.js"></script>
+
+	<script type="text/javascript" src="lib/jquery-1.11.3.min.js"></script>
+</head>
+<body>
+<canvas id="canvas" height="800" width="800" style="border: black solid 1px">
+
+</canvas>
+<script type="text/javascript">
+var stage;
+var queue;
+const LOADER_WIDTH = 400;
+var loaderBar;
+var loadInterval;
+var percentLoaded = 0;
+
+function setupStage() {
+	stage = new createjs.Stage(document.getElementById('canvas'));
+	createjs.Ticker.setFPS(60);
+	createjs.Ticker.addEventListener("tick", function(e){
+		stage.update();
+        console.log("jajajajaj");
+	});
+}
+
+function buildLoaderBar(){
+    loaderBar = new createjs.Shape();
+    loaderBar.x = loaderBar.y = 100;
+    loaderBar.graphics.setStrokeStyle(2);
+    loaderBar.graphics.beginStroke('#000');
+    loaderBar.graphics.drawRect(0,0,LOADER_WIDTH,40);
+    stage.addChild(loaderBar);
+}
+
+function updateLoaderBar(){
+    loaderBar.graphics.clear();
+    loaderBar.graphics.beginFill('#00ff00');
+    loaderBar.graphics.drawRect(0,0,LOADER_WIDTH * percentLoaded,40);
+    loaderBar.graphics.endFill();
+    loaderBar.graphics.setStrokeStyle(2);
+    loaderBar.graphics.beginStroke("#000");
+    loaderBar.graphics.drawRect(0,0,LOADER_WIDTH,40);
+    loaderBar.graphics.endStroke();
+}
+
+function startLoad(){
+    loadInterval = setInterval(updateLoad,50);
+}
+
+function updateLoad(){
+    percentLoaded += .005;
+    updateLoaderBar();
+    if(percentLoaded >= 1){
+        clearInterval(loadInterval);
+        stage.removeChild(loaderBar);
+       // setTimeout(createjs.Ticker.removeAllEventListeners(),5000);
+    }
+}
+
+$(document).ready(function(){
+	setupStage();
+    buildLoaderBar();
+    startLoad();
+});
+</script>
+</body>
+</html>

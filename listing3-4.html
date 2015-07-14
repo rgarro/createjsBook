@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Starter Template</title>
+	<script src="lib/createjs-2014.12.12.min.js"></script>
+
+	<script src="lib/jquery-1.11.3.min.js"></script>
+    <script src="js/colorDrop.js"/></script>
+</head>
+<body>
+<canvas id="canvas" height="800" width="800" style="border: black solid 1px">
+
+</canvas>
+<script>
+
+function setupStage() {
+	stage = new createjs.Stage(document.getElementById('canvas'));
+	createjs.Ticker.setFPS(60);
+	createjs.Ticker.addEventListener("tick", function(){
+		stage.update();
+	});
+}
+
+
+
+$(document).ready(function(){
+    console.log("jkjk");
+	setupStage();
+    init();
+});
+</script>
+</body>
+</html>

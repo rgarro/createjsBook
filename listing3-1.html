@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Starter Template</title>
+	<script type="text/javascript" src="lib/createjs-2014.12.12.min.js"></script>
+
+	<script type="text/javascript" src="lib/jquery-1.11.3.min.js"></script>
+</head>
+<body>
+<canvas id="canvas" height="500" width="500" style="border: black solid 1px">
+
+</canvas>
+<script type="text/javascript">
+var stage;
+var queue;
+
+function setupStage() {
+	stage = new createjs.Stage(document.getElementById('canvas'));
+	createjs.Ticker.setFPS(60);
+	createjs.Ticker.addEventListener("tick", function(){
+		stage.update();
+	});
+}
+
+$(document).ready(function(){
+	setupStage();
+    var circle = new createjs.Shape();
+    circle.graphics.beginFill('#0000FF').drawCircle(0,0,50);
+    circle.x = stage.canvas.width / 2;
+    circle.y = stage.canvas.height /2;
+    circle.name = 'Blue Circle';
+    stage.addChild(circle);
+
+    circle.addEventListener('dblclick',function(e){
+        alert(e.target);
+    });
+
+    stage.enableMouseOver();
+    circle.cursor = "pointer";
+    circle.addEventListener("mouseover",function(e){
+        circle.alpha = 1;
+    });
+    circle.addEventListener("mouseout",function(e){
+        circle.alpha = 0.5;
+    });
+    circle.addEventListener("mousedown",function(e){
+        stage.addEventListener("stagemousemove",function(e){
+            circle.x = stage.mouseX;
+            circle.y = stage.mouseY;
+        });
+        stage.addEventListener("stagemouseup",function(e){
+            e.target.removeAllEventListeners();
+        });
+    });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Starter Template</title>
+	<script type="text/javascript" src="lib/createjs-2014.12.12.min.js"></script>
+
+	<script type="text/javascript" src="lib/jquery-1.11.3.min.js"></script>
+</head>
+<body>
+<canvas id="canvas" height="500" width="500" style="border: black solid 1px">
+
+</canvas>
+<script type="text/javascript">
+var stage;
+var queue;
+var circle;
+var speed;
+var direction;
+
+function setupStage() {
+	stage = new createjs.Stage(document.getElementById('canvas'));
+	createjs.Ticker.setFPS(60);
+	createjs.Ticker.addEventListener("tick", function(){
+		stage.update();
+	});
+}
+
+function updateCircle(){
+    var nextX = circle.x + (speed * direction);
+    if(nextX > (stage.canvas.width - circle.radius)){
+        nextX = stage.canvas.width - circle.radius;
+        direction *= -1;
+    }else if(nextX < circle.radius){
+        nextX = circle.radius;
+        direction *= -1;
+    }
+    circle.nextX = nextX;
+}
+
+function renderCircle(){
+    circle.x = circle.nextX;
+}
+
+function tick(e){
+    updateCircle();
+    renderCircle();
+    stage.update();
+}
+
+$(document).ready(function(){
+	setupStage();
+    direction = 1;
+    speed = 10;
+    circle =  new createjs.Shape();
+    circle.graphics.beginStroke('#000');
+    circle.graphics.beginFill('#fff000');
+    circle.graphics.drawCircle(0,0,50);
+    circle.radius = 50;
+    circle.x = 100;
+    circle.y = 300;
+    stage.addChild(circle);
+    createjs.Ticker.addEventListener("tick",tick);
+});
+</script>
+</body>
+</html>

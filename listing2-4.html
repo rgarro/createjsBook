@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Starter Template</title>
+	<script type="text/javascript" src="lib/createjs-2014.12.12.min.js"></script>
+
+	<script type="text/javascript" src="lib/jquery-1.11.3.min.js"></script>
+</head>
+<body>
+<canvas id="canvas" height="800" width="800" style="border: black solid 1px">
+
+</canvas>
+<script type="text/javascript">
+var stage;
+var queue;
+
+function setupStage() {
+	stage = new createjs.Stage(document.getElementById('canvas'));
+	createjs.Ticker.setFPS(60);
+	createjs.Ticker.addEventListener("tick", function(){
+		stage.update();
+	});
+}
+
+
+
+$(document).ready(function(){
+	setupStage();
+    var g = new createjs.Graphics();
+    g.beginStroke('#000').beginFill('#ff0000').drawRect(0,0,100,100);
+    var square = new createjs.Shape(g);
+    square.x = (stage.canvas.width / 2) - 50;
+    square.y = (stage.canvas.height / 2) - 50;
+    stage.addChild(square);
+    createjs.Tween.get(square).to({rotation:360},8000);
+});
+</script>
+</body>
+</html>

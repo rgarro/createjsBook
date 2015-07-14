@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Starter Template</title>
+	<script type="text/javascript" src="lib/createjs-2014.12.12.min.js"></script>
+
+	<script type="text/javascript" src="lib/jquery-1.11.3.min.js"></script>
+</head>
+<body>
+<canvas id="canvas" height="800" width="800" style="border: black solid 1px">
+
+</canvas>
+<script type="text/javascript">
+const ARROW_KEY_LEFT = 37;
+const ARROW_KEY_RIGHT = 39;
+
+
+var stage,padel;
+var queue;
+var leftKeyDown,rightKeyDown = false;
+
+function setupStage() {
+	stage = new createjs.Stage(document.getElementById('canvas'));
+	createjs.Ticker.setFPS(10);
+    startGame();
+
+	createjs.Ticker.addEventListener("tick", function(){
+		update();
+        render();
+        stage.update();
+	});
+
+}
+
+function startGame(){
+    padel = new createjs.Shape();
+    padel.width = 100;
+    padel.graphics.beginFill('#0000FF').drawRect(0,0,padel.width,20);
+    padel.x = padel.nextX = 0;
+    padel.y = stage.canvas.height - 20;
+    stage.addChild(padel);
+    window.onkeydown = movePadel;
+    window.onkeyup = stopPadel;
+}
+
+function movePadel(e){
+    e = !e ? window.event : e;
+    switch(e.keyCode){
+        case ARROW_KEY_LEFT:
+            leftKeyDown = true;
+            break;
+        case ARROW_KEY_RIGHT:
+            rightKeyDown = true;
+            break;
+    }
+}
+
+function stopPadel(e){
+    e = !e ? window.event : e;
+    switch(e.keyCode){
+        case ARROW_KEY_LEFT:
+            leftKeyDown = false;
+            break;
+        case ARROW_KEY_RIGHT:
+            rightKeyDown = false;
+            break;
+    }
+}
+
+function update(){
+    var nextX = padel.x;
+    if(leftKeyDown){
+        nextX = padel.x -10;
+        if(nextX < 0){
+
+         sound = createjs.Sound.play('woosh',createjs.Sound.INTERRUPT_NONE,3 * 1000);
+            nextX = 0;
+        }
+    }else if(rightKeyDown){
+        nextX = padel.x + 10;
+        if(nextX > stage.canvas.width - padel.width){
+
+         sound = createjs.Sound.play('woosh',createjs.Sound.INTERRUPT_NONE,3 * 1000);
+            nextX = stage.canvas.width - padel.width;
+        }
+    }
+    padel.nextX = nextX;
+}
+
+function render(){
+    padel.x = padel.nextX;
+}
+
+$(document).ready(function(){
+        queue = new createjs.LoadQueue();
+	queue.installPlugin(createjs.Sound);
+	queue.addEventListener("complete", setupStage); queue.loadManifest(
+		[
+			{id:"woosh", src:"sounds/woosh.mp3"},
+			{id:"chime", src:"sounds/chime.mp3"}
+		]);
+
+});
+</script>
+</body>
+</html>
