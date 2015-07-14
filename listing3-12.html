@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Starter Template</title>
+	<script type="text/javascript" src="lib/createjs-2014.12.12.min.js"></script>
+
+	<script type="text/javascript" src="lib/jquery-1.11.3.min.js"></script>
+</head>
+<body>
+<canvas id="canvas" height="800" width="800" style="border: black solid 1px">
+
+</canvas>
+<script type="text/javascript">
+var stage;
+var queue;
+
+function setupStage() {
+	stage = new createjs.Stage(document.getElementById('canvas'));
+	createjs.Ticker.setFPS(10);
+	createjs.Ticker.addEventListener("tick", function(){
+		stage.update();
+	});
+}
+
+
+
+$(document).ready(function(){
+	setupStage();
+    var txt = new createjs.Text("Game Over","20px Arial","#ff7700");
+    txt.textBaseline = "middle";
+    txt.textAlign = "center";
+    txt.x = stage.canvas.width / 2;
+    txt.y = stage.canvas.height /2;
+    stage.addChild(txt);
+});
+</script>
+</body>
+</html>

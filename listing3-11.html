@@ -74,14 +74,14 @@ function update(){
         nextX = padel.x -10;
         if(nextX < 0){
 
-         sound = createjs.Sound.play('woosh',createjs.Sound.INTERRUPT_NONE,3 * 1000);
+         sound = createjs.Sound.play('woosh');
             nextX = 0;
         }
     }else if(rightKeyDown){
         nextX = padel.x + 10;
         if(nextX > stage.canvas.width - padel.width){
 
-         sound = createjs.Sound.play('woosh',createjs.Sound.INTERRUPT_NONE,3 * 1000);
+         sound = createjs.Sound.play('woosh');
             nextX = stage.canvas.width - padel.width;
         }
     }
