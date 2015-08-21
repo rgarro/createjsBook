@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>SmartSoft Bola Negra</title>
+	<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://daneden.github.io/animate.css/animate.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+<!-- Latest compiled and minified JavaScript -->
+<script type="text/javascript" src="lib/jquery-1.11.3.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	<script type="text/javascript" src="lib/createjs-2014.12.12.min.js"></script>
+</head>
+<body>
+<div class="container-fluid">
+<div class="row">
+  <div class="col-md-12">
+  	<form id="arbitro" name="arbitro" class="form-horizontal">
+  		<fieldset>
+		<legend id="titulo"><i class="fa fa-futbol-o"> </i> SmartSoft Bouncing Ball</legend>
+		<label><i class="fa fa-dashboard"> </i> Velocidad entre 10 y 80 :</label> 
+	<input type="number" id="friccion" name="friccion" value="60" required="required" min="10" max="80"/>
+	</fieldset>
+	 <button class="btn btn-xs btn-danger" class="form-control" type="submit"><i class="fa fa-play-circle"> </i> Jugar</button><br>
+</form>
+<br>	
+</div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+<canvas id="canvas" height="400" width="400" style="border: black solid 1px;background-color:#3DF52C;"> </canvas>
+</div>
+</div>    
+</div>
+<script type="text/javascript">
+var stage;
+var queue;
+
+function setupStage(friccion) {
+	stage = new createjs.Stage(document.getElementById('canvas'));
+	createjs.Ticker.setFPS(friccion);
+}
+
+function jueguela(friccion){	
+	setupStage(friccion);
+	var donde_esta_la_bola = "bola_negra.png";
+	var  bola = new createjs.Bitmap(donde_esta_la_bola);
+	
+	stage.addChild(bola);
+	createjs.Ticker.addEventListener("tick", function(){
+		stage.update();
+		if(bola.x < 200){
+			bola.x = bola.x + 1;
+			bola.y = bola.y + 2;
+		}else{
+			bola.x = bola.x + 1;
+			bola.y = bola.y - 2;
+		}
+		if(bola.x > 400){
+			bola.x = 10;
+			bola.y = 10;
+		}
+	});
+}
+
+$(document).ready(function(){
+	$('#titulo').addClass('animated flash');
+	
+	$("#arbitro").on("submit",function(){
+		var friccion = $("#friccion").val();
+		jueguela(friccion);
+		return false;
+	});
+		
+});
+</script>
+</body>
+</html>
